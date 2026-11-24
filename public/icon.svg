@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="112" fill="#1d6b5f"/>
+  
+  <g>
+    <!-- box body -->
+    <path d="M128 208 h256 v160 a24 24 0 0 1 -24 24 h-208 a24 24 0 0 1 -24 -24 z" fill="#f2c27b"/>
+    <!-- lid -->
+    <rect x="108" y="150" width="296" height="70" rx="18" fill="#dca159"/>
+    <!-- tape -->
+    <rect x="232" y="150" width="48" height="118" fill="#fbe4bd"/>
+    <!-- label -->
+    <rect x="164" y="292" width="88" height="54" rx="8" fill="#fbe4bd"/>
+    <!-- magnifying glass -->
+    <circle cx="334" cy="318" r="66" fill="rgba(255,255,255,0.28)" stroke="#ffffff" stroke-width="26"/>
+    <line x1="382" y1="366" x2="428" y2="412" stroke="#ffffff" stroke-width="36" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -1,0 +1,140 @@
+@use '@angular/material' as mat;
+@use './styles/theme-colors' as theme;
+
+// System font stack only – the app must never load external fonts.
+$font-family:
+  system-ui,
+  -apple-system,
+  'Segoe UI',
+  Roboto,
+  'Noto Sans',
+  'Helvetica Neue',
+  Arial,
+  sans-serif;
+
+html {
+  // Follow the system light/dark preference (M3 tokens use light-dark()).
+  color-scheme: light dark;
+
+  @include mat.theme(
+    (
+      color: (
+        primary: theme.$primary-palette,
+        tertiary: theme.$tertiary-palette,
+      ),
+      typography: (
+        plain-family: $font-family,
+        brand-family: $font-family,
+        bold-weight: 700,
+        medium-weight: 500,
+        regular-weight: 400,
+      ),
+      density: 0,
+    )
+  );
+
+  // Snackbars should stand out in both themes.
+  @include mat.snack-bar-overrides(
+    (
+      button-color: var(--mat-sys-inverse-primary),
+    )
+  );
+
+  --app-max-width: 760px;
+  --app-row-height: 72px;
+  --app-quick-add-space: 88px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-large);
+  font-family: $font-family;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
+}
+
+a {
+  color: var(--mat-sys-primary);
+}
+
+:focus-visible {
+  outline: 2px solid var(--mat-sys-primary);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.app-page {
+  max-width: var(--app-max-width);
+  margin: 0 auto;
+  padding: 0 12px calc(var(--app-quick-add-space) + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+
+.app-section-title {
+  font: var(--mat-sys-title-small);
+  color: var(--mat-sys-on-surface-variant);
+  margin: 20px 4px 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-empty {
+  color: var(--mat-sys-on-surface-variant);
+  font: var(--mat-sys-body-medium);
+  padding: 16px 4px;
+}
+
+// Fullscreen photo viewer dialog.
+.app-photo-viewer-panel {
+  --mat-dialog-container-shape: 0;
+  --mat-dialog-container-max-width: 100vw;
+  --mat-dialog-container-small-max-width: 100vw;
+
+  .mat-mdc-dialog-surface {
+    background: #000;
+    color: #fff;
+  }
+}
+
+.cdk-overlay-dark-backdrop.app-photo-viewer-backdrop {
+  background: rgb(0 0 0 / 92%);
+}
+
+// The move bottom sheet should use most of the screen on phones.
+.app-move-sheet {
+  --mat-bottom-sheet-container-shape: 28px;
+  max-height: 88vh !important;
+  min-width: min(100vw, 640px) !important;
+  padding: 0 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
