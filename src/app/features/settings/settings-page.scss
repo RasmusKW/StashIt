@@ -1,0 +1,65 @@
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 8px;
+  padding-bottom: calc(32px + env(safe-area-inset-bottom));
+}
+
+.card {
+  padding: 16px;
+  border-radius: 20px;
+  background: var(--mat-sys-surface-container-low);
+  border: 1px solid var(--mat-sys-outline-variant);
+
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 8px;
+    font: var(--mat-sys-title-medium);
+
+    mat-icon {
+      color: var(--mat-sys-primary);
+    }
+  }
+
+  p {
+    margin: 8px 0;
+    font: var(--mat-sys-body-medium);
+  }
+}
+
+dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 16px;
+  margin: 12px 0 16px;
+  font: var(--mat-sys-body-medium);
+
+  dt {
+    color: var(--mat-sys-on-surface-variant);
+  }
+  dd {
+    margin: 0;
+  }
+}
+
+.help {
+  color: var(--mat-sys-on-surface-variant);
+  font: var(--mat-sys-body-small) !important;
+}
+
+.error {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--mat-sys-error-container);
+  color: var(--mat-sys-on-error-container);
+}
+
+mat-progress-bar {
+  margin: 8px 0;
+}

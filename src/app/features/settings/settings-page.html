@@ -1,0 +1,106 @@
+<header class="app-topbar">
+  <div class="app-topbar-inner">
+    <a matIconButton routerLink="/" aria-label="Tilbage til forsiden">
+      <mat-icon svgIcon="arrow-back" />
+    </a>
+    <h1 class="app-topbar-title">Indstillinger</h1>
+  </div>
+</header>
+
+<main class="app-page settings">
+  <section class="card" aria-labelledby="backup-title">
+    <h2 id="backup-title"><mat-icon svgIcon="backup" aria-hidden="true" /> Backup</h2>
+    <p>
+      Dine data findes kun på denne enhed. Tag jævnligt en backup og gem den et sikkert sted, f.eks.
+      i skyen eller på en computer.
+    </p>
+    <dl>
+      <dt>Sidste backup</dt>
+      <dd>
+        @if (lastBackupAt(); as last) {
+          {{ last | date: 'd. MMMM y, HH:mm' }}
+        } @else {
+          Aldrig
+        }
+      </dd>
+      <dt>Indhold</dt>
+      <dd>{{ contents() }}</dd>
+    </dl>
+    <button matButton="filled" type="button" [disabled]="exporting()" (click)="export()">
+      <mat-icon svgIcon="share" />
+      {{ exporting() ? 'Laver backup…' : 'Eksportér backup' }}
+    </button>
+    <p class="help">
+      En zip-fil med <code>data.json</code> og mappen <code>photos/</code>. Kan deles direkte til
+      f.eks. Google Drive eller mail – ellers hentes den som fil.
+    </p>
+  </section>
+
+  <section class="card" aria-labelledby="restore-title">
+    <h2 id="restore-title"><mat-icon svgIcon="upload" aria-hidden="true" /> Gendan fra backup</h2>
+    <p>
+      Vælg en backup-fil. Filen tjekkes først, og du bliver spurgt, før noget bliver overskrevet.
+    </p>
+    <button
+      matButton="outlined"
+      type="button"
+      [disabled]="restoring()"
+      (click)="restoreInput.click()"
+    >
+      <mat-icon svgIcon="upload" />
+      {{ restoring() ? 'Læser backup…' : 'Vælg backup-fil…' }}
+    </button>
+    <input
+      #restoreInput
+      type="file"
+      accept=".zip,application/zip,application/x-zip-compressed"
+      hidden
+      aria-label="Backup-fil"
+      (change)="onRestoreFile($event)"
+    />
+    @if (restoreError(); as error) {
+      <p class="error" role="alert">
+        <mat-icon svgIcon="warning" aria-hidden="true" />
+        {{ error }}
+      </p>
+    }
+  </section>
+
+  <section class="card" aria-labelledby="storage-title">
+    <h2 id="storage-title"><mat-icon svgIcon="storage" aria-hidden="true" /> Lagerplads</h2>
+    <p>{{ usageText() }}</p>
+    @if (usagePercent() > 0) {
+      <mat-progress-bar mode="determinate" [value]="usagePercent()" aria-label="Lagerforbrug" />
+    }
+    <dl>
+      <dt>Vedvarende lagring</dt>
+      <dd>
+        @switch (persisted()) {
+          @case (true) {
+            Ja – browseren sletter ikke dine data af sig selv.
+          }
+          @case (false) {
+            Nej – browseren kan slette data, hvis enheden mangler plads.
+          }
+          @default {
+            Ukendt (understøttes ikke af browseren).
+          }
+        }
+      </dd>
+    </dl>
+    @if (persisted() === false) {
+      <button matButton="tonal" type="button" (click)="requestPersistence()">
+        Bed om vedvarende lagring
+      </button>
+    }
+  </section>
+
+  <section class="card" aria-labelledby="about-title">
+    <h2 id="about-title"><mat-icon svgIcon="info" aria-hidden="true" /> Om</h2>
+    <p>
+      «Hvor er den?» virker helt uden internet. Der er ingen konto, ingen server og ingen sporing –
+      alt gemmes lokalt i browseren på denne enhed.
+    </p>
+    <p class="help">Version {{ version }}</p>
+  </section>
+</main>

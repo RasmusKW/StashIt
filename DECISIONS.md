@@ -153,3 +153,28 @@ Choices made where the brief left room for interpretation. Newest phases at the 
   ind i sig selv" / "nuværende placering"). The search field is auto-focused only on devices
   with a fine pointer, so phones don't pop up the keyboard over the tree.
 - **Undo for bulk favorite/tag too** – cheap to offer, and consistent with delete/move.
+
+## Backup & settings
+
+- **Zip via fflate** (small, dependency-free, synchronous API). Photos are stored uncompressed
+  inside the zip (they are already WebP/JPEG); `data.json` is deflated. File name:
+  `hvor-er-den-backup-YYYY-MM-DD.zip`.
+- **data.json** has `schemaVersion: 1`, `app`, `exportedAt` (ISO), `nodes` (the documented node
+  fields only) and `photos` (metadata + paths to `photos/<id>.webp` and `photos/<id>-thumb.webp`).
+  Nodes waiting in the undo window are not exported.
+- **Sharing**: `navigator.canShare({ files })` → `navigator.share`. If the user cancels the
+  share sheet nothing happens; if sharing fails for another reason (e.g. the user gesture
+  expired while a big zip was built) the file is downloaded instead. The last backup time is
+  stored after a successful share or download.
+- **Restore validates everything first** (zip, JSON, schema version, every node and photo field,
+  unique ids, existing parents, no cycles, every photo file present) and only then shows the
+  single confirmation dialog of the app. The overwrite is one IndexedDB transaction, so a crash
+  half-way cannot leave a mix of old and new data.
+- After a restore, "last backup" is set to the backup's `exportedAt` – the data on the device
+  is exactly that backup.
+- **Backup banner** on the home screen appears when there is data and no backup in 30 days (or
+  ever); "Senere" hides it until the app is opened again. It is not shown on an empty app.
+- Storage usage comes from `navigator.storage.estimate()`; the persistence status from
+  `navigator.storage.persisted()`, with a button to ask again if it was not granted.
+- Large backups are built in memory; with thousands of photos this needs a few hundred MB of RAM
+  (see README "Known limitations").

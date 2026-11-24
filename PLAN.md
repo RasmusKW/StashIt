@@ -67,11 +67,11 @@ After every phase: `npm run lint`, `npm test`, `npm run build` → fix → `git 
 - [x] Undo snackbars ("Fortryd", ~8 s) for delete and move, no confirmation dialogs
 
 ## Phase 9 – Backup & settings
-- [ ] Export zip (data.json with schemaVersion + photos/) via Web Share API (canShare) or download
-- [ ] Restore: pick zip → full validation → confirm dialog → overwrite
-- [ ] Last backup time stored; banner on home (> 30 days / never)
-- [ ] Storage estimate + persistent storage status
-- [ ] Unit test: backup round trip (export → restore → identical data and photos)
+- [x] Export zip (data.json with schemaVersion + photos/) via Web Share API (canShare) or download
+- [x] Restore: pick zip → full validation → confirm dialog → overwrite
+- [x] Last backup time stored; banner on home (> 30 days / never)
+- [x] Storage estimate + persistent storage status
+- [x] Unit test: backup round trip (export → restore → identical data and photos)
 
 ## Phase 10 – E2E (Playwright)
 - [ ] Create room → multi-line add → typo search with correct path → move → delete + undo
