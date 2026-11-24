@@ -33,11 +33,11 @@ After every phase: `npm run lint`, `npm test`, `npm run build` → fix → `git 
 - [x] Unit tests (fake-indexeddb)
 
 ## Phase 4 – Search engine
-- [ ] MiniSearch index: name, tags, notes, path; fuzzy + prefix; Danish normalization
-- [ ] Incremental index updates (rename/move update the subtree's paths)
-- [ ] Scope (subtree) + filters (tags multi-select, favorites, has photo), filters without text
-- [ ] Ranking: exact/phrase matches first
-- [ ] Unit tests incl. typo search and 5 000-node performance smoke test
+- [x] MiniSearch index: name, tags, notes, path; fuzzy + prefix; Danish normalization
+- [x] Incremental index updates (rename/move update the subtree's paths)
+- [x] Scope (subtree) + filters (tags multi-select, favorites, has photo), filters without text
+- [x] Ranking: exact/phrase matches first
+- [x] Unit tests incl. typo search and 5 000-node performance smoke test
 
 ## Phase 5 – UI shell, home, node view, quick-add
 - [ ] App shell, top bar, settings link, snackbar-based undo service

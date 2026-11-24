@@ -70,3 +70,18 @@ Choices made where the brief left room for interpretation. Newest phases at the 
 - **Moving a node to where it already is** is a no-op; nested selections only move/delete the
   topmost selected node (its descendants follow automatically).
 - `navigator.storage.persist()` is requested on every start (no-op once granted).
+
+## Search
+
+- **MiniSearch** indexes name (boost 3), tags (2), notes and path (1). The path is the names of
+  all ancestors, so "reol 2" finds Reol 2 and everything inside it.
+- **All words must match** (`AND`), each word may match in any field.
+- **Fuzzy** matching (20 % edits) only for words of 4+ letters, to avoid noise on short words.
+  **Prefix** matching for all words except pure numbers, so "reol 2" does not also match "Reol 20".
+- **Ranking tiers on top of the MiniSearch score**: exact name > name starts with the query >
+  a word in the name starts with it > the query appears as a phrase in the path+name > the rest.
+  This puts "Reol 2" itself first and everything inside it right after.
+- **Tag filters** are AND-combined (an item must have every selected tag) – filters narrow down.
+- **Scoped search** (inside a node) returns that node's descendants, not the node itself.
+- **Incremental index**: the store reports changed ids (a rename or move reports the whole
+  subtree, since their paths change); the engine applies them lazily right before the next search.

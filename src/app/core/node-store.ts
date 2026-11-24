@@ -54,6 +54,11 @@ export class NodeStore {
   /** Non-reactive lookup for the pure tree helpers. */
   readonly lookup: NodeLookup = { get: (id: string) => this.byId.get(id) };
 
+  /** Non-reactive iteration over all nodes (for derived indexes). */
+  values(): IterableIterator<ItemNode> {
+    return this.byId.values();
+  }
+
   readonly count = computed(() => {
     this._revision();
     return this.byId.size;
