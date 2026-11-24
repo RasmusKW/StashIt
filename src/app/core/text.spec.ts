@@ -1,4 +1,11 @@
-import { formatQuantity, mergeTags, naturalCompare, normalizeDa, normalizeTag, plural } from './text';
+import {
+  formatQuantity,
+  mergeTags,
+  naturalCompare,
+  normalizeDa,
+  normalizeTag,
+  plural,
+} from './text';
 
 describe('normalizeDa (Danish normalization)', () => {
   it('is case-insensitive', () => {

@@ -127,3 +127,12 @@ Choices made where the brief left room for interpretation. Newest phases at the 
 - **Viewer swiping is native scrolling with CSS scroll-snap** – smooth on every touch device,
   no gesture library. Arrow buttons (mouse devices only) and ←/→/Delete keys work on desktop.
 - **A node's first photo is its thumbnail** in lists and search results.
+- **Search state lives in the URL** (`#/n/<id>?q=…&tag=…&fav=1&foto=1&alle=1`), written with
+  `replaceState` (no extra history entries while typing). Opening a result and pressing Back
+  restores the exact search.
+- The search UI switches to results the instant you type; the actual search runs 100 ms after
+  the last keystroke. Pressing Enter/Search on the keyboard hides it so the results are visible.
+- **Filter chips** are always visible below the search field (so filters work without text):
+  "Søg overalt" (only inside a node), "Favoritter", "Har billede", then the tags used in the
+  current scope, most used first, selected ones first. One horizontally scrolling row.
+- Search results support multi-select too (long press), handy for "move everything tagged X".

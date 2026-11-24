@@ -18,7 +18,11 @@ const childrenOf = (id: string): ItemNode[] =>
 
 describe('tree helpers', () => {
   it('lists ancestors from the top', () => {
-    expect(ancestorsOf(nodes, 'skruer').map((n) => n.name)).toEqual(['Kælder', 'Reol 2', 'Kasse 1']);
+    expect(ancestorsOf(nodes, 'skruer').map((n) => n.name)).toEqual([
+      'Kælder',
+      'Reol 2',
+      'Kasse 1',
+    ]);
     expect(ancestorsOf(nodes, 'kaelder')).toEqual([]);
     expect(ancestorsOf(nodes, 'missing')).toEqual([]);
   });

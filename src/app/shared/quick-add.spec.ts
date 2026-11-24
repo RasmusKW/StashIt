@@ -28,7 +28,9 @@ describe('QuickAdd', () => {
   }
 
   async function pressEnter(): Promise<void> {
-    textarea.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }));
+    textarea.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }),
+    );
     await fixture.whenStable();
     // Let the queued create finish.
     await new Promise((r) => setTimeout(r, 20));

@@ -165,8 +165,13 @@ describe('NodeStore', () => {
 
   it('re-parents orphans to the top level on start', async () => {
     await db.nodes.add({
-      id: 'orphan', parentId: 'gone', name: 'Forældreløs', tags: [], favorite: false,
-      createdAt: 1, updatedAt: 1,
+      id: 'orphan',
+      parentId: 'gone',
+      name: 'Forældreløs',
+      tags: [],
+      favorite: false,
+      createdAt: 1,
+      updatedAt: 1,
     });
     await store.init();
     expect(store.get('orphan')?.parentId).toBeNull();

@@ -102,7 +102,10 @@ export class PhotoStore {
   /** Permanently deletes all photos of the given nodes. */
   async deleteForNodes(nodeIds: readonly string[]): Promise<void> {
     if (nodeIds.length === 0) return;
-    await this.db.photos.where('nodeId').anyOf([...nodeIds]).delete();
+    await this.db.photos
+      .where('nodeId')
+      .anyOf([...nodeIds])
+      .delete();
     for (const nodeId of nodeIds) {
       for (const photoId of [...(this.byNode.get(nodeId) ?? [])]) this.indexRemove(photoId);
     }

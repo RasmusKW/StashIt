@@ -41,12 +41,12 @@ After every phase: `npm run lint`, `npm test`, `npm run build` → fix → `git 
 
 ## Phase 5 – UI shell, home, node view, quick-add
 - [x] App shell, top bar, settings link, snackbar-based undo service
-- [x] Home: favorites, recently viewed (10), rooms, backup banner
+- [x] Home: search field, favorites, recently viewed (10), rooms, backup banner
 - [x] Node view: breadcrumb, inline rename, star, tags chips (with autocomplete), quantity, notes
 - [x] Children list: containers first with counts, natural sort, thumbnail/tags/quantity, virtual scroll
 - [x] Quick-add bar: Enter creates + keeps focus, multi-line, inline syntax, `#` autocomplete,
       next-number chip, camera button (attaches to last created node / current node)
-- [ ] "/" focuses search on desktop (shortcut wired; needs search field – Phase 7)
+- [x] "/" focuses search on desktop
 
 ## Phase 6 – Photos
 - [x] Compression (max 1600 px, WebP/JPEG q≈0.8) + 300 px thumbnail
@@ -54,10 +54,10 @@ After every phase: `npm run lint`, `npm test`, `npm run build` → fix → `git 
 - [x] Fullscreen viewer: swipe between photos, keyboard arrows, delete
 
 ## Phase 7 – Search UI
-- [ ] Results update as you type (~100 ms debounce), thumbnail, name, tags, full path
-- [ ] Inside a node: subtree by default + "Søg overalt" chip
-- [ ] Filter chips: tags (multi), favorites only, has photo; work without text
-- [ ] Search state in URL query params (back button returns to results)
+- [x] Results update as you type (~100 ms debounce), thumbnail, name, tags, full path
+- [x] Inside a node: subtree by default + "Søg overalt" chip
+- [x] Filter chips: tags (multi), favorites only, has photo; work without text
+- [x] Search state in URL query params (back button returns to results)
 
 ## Phase 8 – Multi-select & moving
 - [ ] Long press (and right-click) starts multi-select; tap toggles afterwards

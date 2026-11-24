@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  viewChild,
+} from '@angular/core';
 import { LocationStrategy } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
@@ -38,7 +45,11 @@ export class NodeRow {
     this.showPath() ? this.store.locationText(this.node().id) : '',
   );
   protected readonly quantity = computed(() => formatQuantity(this.node().quantity));
-  protected readonly tagsText = computed(() => this.node().tags.map((tag) => `#${tag}`).join(' '));
+  protected readonly tagsText = computed(() =>
+    this.node()
+      .tags.map((tag) => `#${tag}`)
+      .join(' '),
+  );
   protected readonly selecting = computed(() => this.selectable() && this.selection.active());
   protected readonly selected = computed(() => this.selection.isSelected(this.node().id));
   protected readonly href = computed(() =>

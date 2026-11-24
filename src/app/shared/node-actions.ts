@@ -23,8 +23,13 @@ export class NodeActions {
     }
     const inside = handle.ids.length - handle.rootCount;
     const what =
-      handle.rootCount === 1 && first ? `«${first.name}»` : plural(handle.rootCount, 'ting', 'ting');
-    const message = inside > 0 ? `Slettede ${what} med ${plural(inside, 'ting', 'ting')} indeni` : `Slettede ${what}`;
+      handle.rootCount === 1 && first
+        ? `«${first.name}»`
+        : plural(handle.rootCount, 'ting', 'ting');
+    const message =
+      inside > 0
+        ? `Slettede ${what} med ${plural(inside, 'ting', 'ting')} indeni`
+        : `Slettede ${what}`;
     this.undo.show(message, {
       undo: async () => {
         await handle.undo();

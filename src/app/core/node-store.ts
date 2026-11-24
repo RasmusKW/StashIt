@@ -225,7 +225,10 @@ export class NodeStore {
    * Applies a patch to several nodes at once and returns their previous versions so the
    * change can be undone with {@link putSnapshots}.
    */
-  async updateMany(ids: readonly string[], patchFor: (node: ItemNode) => NodePatch): Promise<ItemNode[]> {
+  async updateMany(
+    ids: readonly string[],
+    patchFor: (node: ItemNode) => NodePatch,
+  ): Promise<ItemNode[]> {
     const now = Date.now();
     const before: ItemNode[] = [];
     const after: ItemNode[] = [];

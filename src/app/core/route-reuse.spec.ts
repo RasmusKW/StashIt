@@ -11,8 +11,14 @@ describe('ParamAwareReuseStrategy', () => {
   const homeRoute: Route = { path: '' };
 
   it('reuses only when route and params are identical', () => {
-    expect(strategy.shouldReuseRoute(snapshot(nodeRoute, { id: 'a' }), snapshot(nodeRoute, { id: 'a' }))).toBe(true);
-    expect(strategy.shouldReuseRoute(snapshot(nodeRoute, { id: 'a' }), snapshot(nodeRoute, { id: 'b' }))).toBe(false);
-    expect(strategy.shouldReuseRoute(snapshot(homeRoute, {}), snapshot(nodeRoute, { id: 'a' }))).toBe(false);
+    expect(
+      strategy.shouldReuseRoute(snapshot(nodeRoute, { id: 'a' }), snapshot(nodeRoute, { id: 'a' })),
+    ).toBe(true);
+    expect(
+      strategy.shouldReuseRoute(snapshot(nodeRoute, { id: 'a' }), snapshot(nodeRoute, { id: 'b' })),
+    ).toBe(false);
+    expect(
+      strategy.shouldReuseRoute(snapshot(homeRoute, {}), snapshot(nodeRoute, { id: 'a' })),
+    ).toBe(false);
   });
 });

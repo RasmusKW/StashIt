@@ -9,59 +9,68 @@
 </header>
 
 <main class="app-page">
-  @if (showBackupBanner()) {
-    <section class="banner" role="status" aria-label="Påmindelse om backup">
-      <mat-icon svgIcon="backup" aria-hidden="true" />
-      <p>
-        @if (lastBackupAt()) {
-          Det er over 30 dage siden din sidste backup.
-        } @else {
-          Du har endnu ikke taget en backup.
-        }
-        Dine data findes kun på denne enhed.
-      </p>
-      <div class="banner-actions">
-        <button matButton type="button" (click)="hideBanner()">Senere</button>
-        <a matButton="filled" routerLink="/indstillinger">Tag backup</a>
-      </div>
-    </section>
-  }
+  <app-search-field placeholder="Søg efter ting…" label="Søg i alle ting" />
 
-  @if (favorites().length) {
-    <h2 class="app-section-title">
-      <mat-icon svgIcon="star" aria-hidden="true" />
-      Favoritter
-    </h2>
-    <app-node-list [nodes]="favorites()" [showPath]="true" [selectable]="false" label="Favoritter" />
-  }
-
-  @if (recent().length) {
-    <h2 class="app-section-title">
-      <mat-icon svgIcon="history" aria-hidden="true" />
-      Senest set
-    </h2>
-    <app-node-list [nodes]="recent()" [showPath]="true" [selectable]="false" label="Senest set" />
-  }
-
-  <h2 class="app-section-title">
-    <mat-icon svgIcon="home" aria-hidden="true" />
-    Rum
-  </h2>
-  @if (rooms().length) {
-    <app-node-list [nodes]="rooms()" label="Rum" />
+  @if (search.active()) {
+    <app-search-results />
   } @else {
-    <div class="welcome">
-      <p><strong>Velkommen!</strong> Start med at oprette et rum, f.eks. «Kælder» eller «Loft».</p>
-      <p>
-        Skriv i feltet nederst og tryk Enter. Inde i et rum kan du lægge reoler, kasser og ting –
-        alt kan indeholde alt.
-      </p>
-    </div>
+    @if (showBackupBanner()) {
+      <section class="banner" role="status" aria-label="Påmindelse om backup">
+        <mat-icon svgIcon="backup" aria-hidden="true" />
+        <p>
+          @if (lastBackupAt()) {
+            Det er over 30 dage siden din sidste backup.
+          } @else {
+            Du har endnu ikke taget en backup.
+          }
+          Dine data findes kun på denne enhed.
+        </p>
+        <div class="banner-actions">
+          <button matButton type="button" (click)="hideBanner()">Senere</button>
+          <a matButton="filled" routerLink="/indstillinger">Tag backup</a>
+        </div>
+      </section>
+    }
+
+    @if (favorites().length) {
+      <h2 class="app-section-title">
+        <mat-icon svgIcon="star" aria-hidden="true" />
+        Favoritter
+      </h2>
+      <app-node-list
+        [nodes]="favorites()"
+        [showPath]="true"
+        [selectable]="false"
+        label="Favoritter"
+      />
+    }
+
+    @if (recent().length) {
+      <h2 class="app-section-title">
+        <mat-icon svgIcon="history" aria-hidden="true" />
+        Senest set
+      </h2>
+      <app-node-list [nodes]="recent()" [showPath]="true" [selectable]="false" label="Senest set" />
+    }
+
+    <h2 class="app-section-title">
+      <mat-icon svgIcon="home" aria-hidden="true" />
+      Rum
+    </h2>
+    @if (rooms().length) {
+      <app-node-list [nodes]="rooms()" label="Rum" />
+    } @else {
+      <div class="welcome">
+        <p>
+          <strong>Velkommen!</strong> Start med at oprette et rum, f.eks. «Kælder» eller «Loft».
+        </p>
+        <p>
+          Skriv i feltet nederst og tryk Enter. Inde i et rum kan du lægge reoler, kasser og ting –
+          alt kan indeholde alt.
+        </p>
+      </div>
+    }
   }
 </main>
 
-<app-quick-add
-  [parentId]="null"
-  label="Tilføj rum"
-  placeholder="Nyt rum, f.eks. Kælder…"
-/>
+<app-quick-add [parentId]="null" label="Tilføj rum" placeholder="Nyt rum, f.eks. Kælder…" />

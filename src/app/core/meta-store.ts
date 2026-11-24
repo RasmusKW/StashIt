@@ -28,7 +28,9 @@ export class MetaStore {
     ]);
     this._lastBackupAt.set(typeof last?.value === 'number' ? last.value : null);
     this._recentTargets.set(
-      Array.isArray(recent?.value) ? recent.value.filter((v): v is string => typeof v === 'string') : [],
+      Array.isArray(recent?.value)
+        ? recent.value.filter((v): v is string => typeof v === 'string')
+        : [],
     );
   }
 

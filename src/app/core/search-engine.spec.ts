@@ -35,9 +35,18 @@ describe('SearchEngine', () => {
       makeNode({ id: 'skruer', name: 'Skruer 4x40', parentId: 'kasse1', quantity: 200 }),
       makeNode({ id: 'trækker', name: 'Skruetrækker', parentId: 'kasse1', tags: ['værktøj'] }),
       makeNode({
-        id: 'tang', name: 'Spidstang', parentId: 'reol2', tags: ['værktøj', 'tang'], favorite: true,
+        id: 'tang',
+        name: 'Spidstang',
+        parentId: 'reol2',
+        tags: ['værktøj', 'tang'],
+        favorite: true,
       }),
-      makeNode({ id: 'boremaskine', name: 'Boremaskine', parentId: 'kasse2', notes: 'Bosch, lånt af Ole' }),
+      makeNode({
+        id: 'boremaskine',
+        name: 'Boremaskine',
+        parentId: 'kasse2',
+        notes: 'Bosch, lånt af Ole',
+      }),
       makeNode({ id: 'pensel', name: 'Pensel', parentId: 'reol20' }),
       makeNode({ id: 'loft', name: 'Loft' }),
       makeNode({ id: 'jul', name: 'Julepynt', parentId: 'loft', tags: ['jul'] }),
@@ -71,7 +80,12 @@ describe('SearchEngine', () => {
   it('searches the path: "reol 2" shows everything under Reol 2, best matches first', () => {
     const result = names(q('reol 2'));
     expect(result[0]).toBe('Reol 2');
-    expect(result.slice(1, 5).sort()).toEqual(['Kasse 1', 'Skruer 4x40', 'Skruetrækker', 'Spidstang']);
+    expect(result.slice(1, 5).sort()).toEqual([
+      'Kasse 1',
+      'Skruer 4x40',
+      'Skruetrækker',
+      'Spidstang',
+    ]);
     expect(result).not.toContain('Pensel'); // in Reol 20
     expect(result).not.toContain('Reol 20');
   });
@@ -89,10 +103,15 @@ describe('SearchEngine', () => {
     // Kasse 1 first; its contents match through their path. Kasse 2 (in Reol 1) is out of scope.
     expect(names(q('kasse', { scopeId: 'reol2' }))[0]).toBe('Kasse 1');
     expect(names(q('kasse', { scopeId: 'reol2' })).sort()).toEqual([
-      'Kasse 1', 'Skruer 4x40', 'Skruetrækker',
+      'Kasse 1',
+      'Skruer 4x40',
+      'Skruetrækker',
     ]);
     expect(names(q('reol', { scopeId: 'reol2' })).sort()).toEqual([
-      'Kasse 1', 'Skruer 4x40', 'Skruetrækker', 'Spidstang',
+      'Kasse 1',
+      'Skruer 4x40',
+      'Skruetrækker',
+      'Spidstang',
     ]);
     expect(names(q('kasse')).slice(0, 2).sort()).toEqual(['Kasse 1', 'Kasse 2']);
   });
@@ -155,19 +174,32 @@ describe('SearchEngine', () => {
 
   it('stays fast with 5 000 nodes', () => {
     const big = new FakeSource();
-    const words = ['Skruer', 'Søm', 'Kabel', 'Lampe', 'Bog', 'Tøj', 'Værktøj', 'Legetøj', 'Pære', 'Tape'];
+    const words = [
+      'Skruer',
+      'Søm',
+      'Kabel',
+      'Lampe',
+      'Bog',
+      'Tøj',
+      'Værktøj',
+      'Legetøj',
+      'Pære',
+      'Tape',
+    ];
     for (let room = 0; room < 10; room++) {
       big.add(makeNode({ id: `r${room}`, name: `Rum ${room}` }));
       for (let box = 0; box < 49; box++) {
         const boxId = `r${room}b${box}`;
         big.add(makeNode({ id: boxId, name: `Kasse ${box}`, parentId: `r${room}` }));
         for (let item = 0; item < 9; item++) {
-          big.add(makeNode({
-            id: `${boxId}i${item}`,
-            name: `${words[(room + box + item) % words.length]} ${item}`,
-            parentId: boxId,
-            tags: [words[item % words.length].toLowerCase()],
-          }));
+          big.add(
+            makeNode({
+              id: `${boxId}i${item}`,
+              name: `${words[(room + box + item) % words.length]} ${item}`,
+              parentId: boxId,
+              tags: [words[item % words.length].toLowerCase()],
+            }),
+          );
         }
       }
     }

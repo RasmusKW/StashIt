@@ -34,7 +34,10 @@ describe('PhotoStore', () => {
   });
 
   it('removes a photo and restores it (bytes intact) in the original position', async () => {
-    const a = await photos.addCompressed('n1', { blob: fakeImage([1, 2]), thumbnail: fakeImage([3]) });
+    const a = await photos.addCompressed('n1', {
+      blob: fakeImage([1, 2]),
+      thumbnail: fakeImage([3]),
+    });
     await new Promise((r) => setTimeout(r, 2));
     const b = await photos.addCompressed('n1', { blob: fakeImage([4]), thumbnail: fakeImage([5]) });
 

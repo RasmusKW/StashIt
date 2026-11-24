@@ -98,7 +98,8 @@ export class QuickAdd {
     const lines = this.lineCount();
     if (lines > 1) return `Enter opretter ${lines} ting`;
     if (this.status()) return this.status();
-    if (this.focused() && !this.text()) return 'F.eks. «Skruer 4x40 #jern x200» – én ting pr. linje';
+    if (this.focused() && !this.text())
+      return 'F.eks. «Skruer 4x40 #jern x200» – én ting pr. linje';
     return '';
   });
 

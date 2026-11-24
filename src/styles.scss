@@ -50,6 +50,7 @@ html {
 html,
 body {
   min-height: 100%;
+  overflow-x: clip;
 }
 
 body {
@@ -183,4 +184,27 @@ a {
 // Snackbars sit above the quick-add bar.
 .app-snackbar {
   margin-bottom: calc(var(--app-quick-add-space) + env(safe-area-inset-bottom)) !important;
+}
+
+// Filter chips scroll horizontally in one row.
+.app-filter-chips {
+  display: block;
+  min-width: 0;
+  margin: 6px -12px 0;
+
+  &.mat-mdc-chip-set .mdc-evolution-chip-set__chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding: 0 12px 4px;
+    scrollbar-width: none;
+  }
+  &.mat-mdc-chip-set .mdc-evolution-chip-set__chips::-webkit-scrollbar {
+    display: none;
+  }
+  .mat-mdc-chip {
+    flex: none;
+  }
 }

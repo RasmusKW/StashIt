@@ -5,6 +5,7 @@ import {
   effect,
   inject,
   input,
+  OnInit,
   signal,
   untracked,
   viewChild,
@@ -25,6 +26,9 @@ import { Breadcrumb } from '../../shared/breadcrumb';
 import { NodeList } from '../../shared/node-list';
 import { QuickAdd } from '../../shared/quick-add';
 import { PhotoStrip } from '../photos/photo-strip';
+import { SearchController } from '../search/search-controller';
+import { SearchField } from '../search/search-field';
+import { SearchResults } from '../search/search-results';
 import { InlineName } from './inline-name';
 import { TagEditor } from './tag-editor';
 
@@ -48,12 +52,15 @@ import { TagEditor } from './tag-editor';
     InlineName,
     TagEditor,
     PhotoStrip,
+    SearchField,
+    SearchResults,
   ],
+  providers: [SearchController],
   templateUrl: './node-page.html',
   styleUrl: './node-page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NodePage {
+export class NodePage implements OnInit {
   /** Route parameter (`/n/:id`). */
   readonly id = input.required<string>();
 
@@ -63,6 +70,7 @@ export class NodePage {
   private readonly title = inject(Title);
   protected readonly selection = inject(SelectionService);
   protected readonly photoStrip = viewChild<PhotoStrip>('photoStrip');
+  protected readonly search = inject(SearchController);
 
   protected readonly node = computed(() => this.store.get(this.id()));
   protected readonly children = computed(() =>
@@ -95,6 +103,10 @@ export class NodePage {
       const name = this.node()?.name;
       this.title.setTitle(name ? `${name} – Hvor er den?` : 'Findes ikke – Hvor er den?');
     });
+  }
+
+  ngOnInit(): void {
+    this.search.init(this.id());
   }
 
   protected rename(name: string): void {

@@ -14,7 +14,11 @@ export interface CompressedPhoto {
 }
 
 /** Scales (width, height) down so the longest side is at most `max`. Never scales up. */
-export function fitWithin(width: number, height: number, max: number): { width: number; height: number } {
+export function fitWithin(
+  width: number,
+  height: number,
+  max: number,
+): { width: number; height: number } {
   const longest = Math.max(width, height);
   if (longest <= max || longest === 0) return { width, height };
   const scale = max / longest;
@@ -62,9 +66,7 @@ async function encodeBest(canvas: AnyCanvas, quality: number): Promise<Blob> {
 function draw(source: CanvasImageSource, width: number, height: number): AnyCanvas {
   const canvas = createCanvas(width, height);
   const ctx = canvas.getContext('2d') as
-    | OffscreenCanvasRenderingContext2D
-    | CanvasRenderingContext2D
-    | null;
+    OffscreenCanvasRenderingContext2D | CanvasRenderingContext2D | null;
   if (!ctx) throw new Error('Canvas er ikke tilgængelig');
   ctx.fillStyle = '#ffffff';
   ctx.fillRect(0, 0, width, height);
