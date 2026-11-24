@@ -7,6 +7,7 @@ import {
   input,
   signal,
   untracked,
+  viewChild,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, RouterLink } from '@angular/router';
@@ -23,6 +24,7 @@ import { NodeActions } from '../../shared/node-actions';
 import { Breadcrumb } from '../../shared/breadcrumb';
 import { NodeList } from '../../shared/node-list';
 import { QuickAdd } from '../../shared/quick-add';
+import { PhotoStrip } from '../photos/photo-strip';
 import { InlineName } from './inline-name';
 import { TagEditor } from './tag-editor';
 
@@ -45,6 +47,7 @@ import { TagEditor } from './tag-editor';
     QuickAdd,
     InlineName,
     TagEditor,
+    PhotoStrip,
   ],
   templateUrl: './node-page.html',
   styleUrl: './node-page.scss',
@@ -59,6 +62,7 @@ export class NodePage {
   private readonly router = inject(Router);
   private readonly title = inject(Title);
   protected readonly selection = inject(SelectionService);
+  protected readonly photoStrip = viewChild<PhotoStrip>('photoStrip');
 
   protected readonly node = computed(() => this.store.get(this.id()));
   protected readonly children = computed(() =>

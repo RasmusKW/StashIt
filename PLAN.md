@@ -49,9 +49,9 @@ After every phase: `npm run lint`, `npm test`, `npm run build` → fix → `git 
 - [ ] "/" focuses search on desktop (shortcut wired; needs search field – Phase 7)
 
 ## Phase 6 – Photos
-- [ ] Compression (max 1600 px, WebP/JPEG q≈0.8) + 300 px thumbnail
-- [ ] Photo row in node view, add photos, thumbnails in lists
-- [ ] Fullscreen viewer: swipe between photos, keyboard arrows, delete
+- [x] Compression (max 1600 px, WebP/JPEG q≈0.8) + 300 px thumbnail
+- [x] Photo row in node view, add photos, thumbnails in lists
+- [x] Fullscreen viewer: swipe between photos, keyboard arrows, delete
 
 ## Phase 7 – Search UI
 - [ ] Results update as you type (~100 ms debounce), thumbnail, name, tags, full path

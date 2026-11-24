@@ -112,3 +112,18 @@ Choices made where the brief left room for interpretation. Newest phases at the 
   the Android keyboard.
 - Contextual font alternates are turned off (`calt 0`) – some fonts render "4x40" as "4×40".
 - **Settings has no quick-add bar** – there is no node to add to there.
+
+## Photos
+
+- **WebP at quality 0.8** (JPEG fallback where the browser cannot encode WebP, e.g. older
+  Safari), longest side 1 600 px; thumbnails 300 px on the longest side at quality 0.75. Images
+  are drawn on white so transparent PNGs don't turn black as JPEG.
+- **Decoding uses `createImageBitmap(..., { imageOrientation: 'from-image' })`**, so phone photos
+  keep their EXIF rotation. Formats the browser can't decode (e.g. HEIC on Android) give a
+  Danish error message.
+- **Two ways to add photos**: the quick-add camera button opens the camera directly
+  (`capture=environment`); the "Billede" tile in the node view opens the normal picker (camera or
+  gallery, several files at once).
+- **Viewer swiping is native scrolling with CSS scroll-snap** – smooth on every touch device,
+  no gesture library. Arrow buttons (mouse devices only) and ←/→/Delete keys work on desktop.
+- **A node's first photo is its thumbnail** in lists and search results.

@@ -19,6 +19,10 @@
       <span>Vælg indhold</span>
     </button>
   }
+  <button mat-menu-item (click)="photoStrip()?.pick()">
+    <mat-icon svgIcon="add-photo" />
+    <span>Tilføj billede</span>
+  </button>
   <button mat-menu-item (click)="deleteNode()">
     <mat-icon svgIcon="delete" />
     <span>Slet</span>
@@ -41,6 +45,8 @@
           <mat-icon [svgIcon]="current.favorite ? 'star' : 'star-outline'" />
         </button>
       </div>
+
+      <app-photo-strip #photoStrip [nodeId]="current.id" [nodeName]="current.name" />
 
       <app-tag-editor [tags]="current.tags" (tagsChange)="setTags($event)" />
 
