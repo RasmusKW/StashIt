@@ -1,0 +1,114 @@
+:host {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  background: var(--mat-sys-surface-container);
+  border-top: 1px solid var(--mat-sys-outline-variant);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.bar {
+  max-width: var(--app-max-width);
+  margin: 0 auto;
+  padding: 4px 8px 8px;
+  box-sizing: border-box;
+}
+
+.helpers {
+  min-height: 0;
+}
+
+.chips {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 4px 2px 6px;
+  scrollbar-width: none;
+}
+
+.chip {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 8px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  background: var(--mat-sys-surface-container-low);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-label-large);
+  cursor: pointer;
+
+  &.active,
+  &:hover {
+    background: var(--mat-sys-secondary-container);
+    color: var(--mat-sys-on-secondary-container);
+    border-color: transparent;
+  }
+
+  &.suggestion {
+    background: var(--mat-sys-tertiary-container);
+    color: var(--mat-sys-on-tertiary-container);
+    border-color: transparent;
+  }
+
+  mat-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.hint {
+  padding: 4px 8px 2px;
+  font: var(--mat-sys-body-small);
+  color: var(--mat-sys-on-surface-variant);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.row {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  // content-box: cdkTextareaAutosize sets the content height, padding comes on top.
+  box-sizing: content-box;
+  min-height: 24px;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 24px;
+  background: var(--mat-sys-surface-container-highest);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-large);
+  line-height: 24px;
+  resize: none;
+  outline: none;
+
+  &::placeholder {
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--mat-sys-primary);
+    outline-offset: 0;
+  }
+}
+
+.camera,
+.submit {
+  flex: none;
+  margin-bottom: 0;
+}
+
+.submit:not([disabled]) {
+  background: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+}

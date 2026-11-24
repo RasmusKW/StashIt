@@ -1,0 +1,45 @@
+<a
+  class="row"
+  [class.selected]="selected()"
+  [class.selecting]="selecting()"
+  [attr.href]="href()"
+  (click)="onClick($event)"
+  (appLongPress)="onLongPress()"
+  draggable="false"
+>
+  @if (selecting()) {
+    <span class="check" aria-hidden="true">
+      @if (selected()) {
+        <mat-icon svgIcon="check-circle" />
+      } @else {
+        <span class="empty-check"></span>
+      }
+    </span>
+  }
+  <app-thumb [nodeId]="node().id" [name]="node().name" [container]="count() > 0" />
+  <span class="text">
+    <span class="name">
+      <span class="name-text">{{ node().name }}</span>
+      @if (quantity()) {
+        <span class="qty">· {{ quantity() }}</span>
+      }
+    </span>
+    @if (tagsText()) {
+      <span class="tags">{{ tagsText() }}</span>
+    }
+    @if (showPath()) {
+      <span class="path">{{ location() || 'Øverste niveau' }}</span>
+    }
+  </span>
+  @if (node().favorite) {
+    <mat-icon class="fav" svgIcon="star" aria-label="Favorit" />
+  }
+  @if (count() > 0) {
+    <span class="count">{{ count() }}<span class="visually-hidden"> ting</span></span>
+  }
+  @if (selecting()) {
+    <span class="visually-hidden">{{ selected() ? '(valgt)' : '(ikke valgt)' }}</span>
+  } @else {
+    <mat-icon class="chevron" svgIcon="chevron-right" aria-hidden="true" />
+  }
+</a>

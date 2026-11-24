@@ -85,3 +85,30 @@ Choices made where the brief left room for interpretation. Newest phases at the 
 - **Scoped search** (inside a node) returns that node's descendants, not the node itself.
 - **Incremental index**: the store reports changed ids (a rename or move reports the whole
   subtree, since their paths change); the engine applies them lazily right before the next search.
+
+## UI
+
+- **Initial bundle budget raised to 800 kB** (≈155 kB gzipped). Angular, Dexie and Material's
+  overlay/snackbar are needed before the first screen; everything is cached by the service
+  worker after the first visit anyway.
+- **Each route change with new parameters creates a fresh page** (custom `RouteReuseStrategy`),
+  so per-node state (search field, quick-add "last created", inline edits) never leaks between
+  nodes.
+- **Rows are real links** (`href="#/n/<id>"`): middle-click/new tab work, and screen readers
+  announce them as links. In selection mode a tap toggles selection instead.
+- **"Containers"** (nodes with children) show a box icon and a count of their *direct* children
+  ("4 ting") – the same number you see when you tap in.
+- **Virtual scrolling** kicks in for lists longer than 60 rows and uses the window as scroll
+  container (`cdk-virtual-scroll-viewport scrollWindow`), so the page scrolls naturally.
+- **Quick-add**: Enter submits (Shift+Enter inserts a line break; pasted text keeps its lines).
+  On virtual keyboards that don't report a usable Enter `keydown`, the line break is caught in
+  `beforeinput`. The field is cleared immediately and creates are queued, so fast typists never
+  wait. Accepting the "Kasse 3" chip keeps any tags/quantity typed in the field.
+- **Camera button on the home screen** is disabled until a room has been created in this view
+  (there is no "current node" at the top level to attach a photo to).
+- **Inline syntax example** is shown as a hint above the field while it is focused and empty, to
+  keep the placeholder short.
+- `interactive-widget=resizes-content` in the viewport meta keeps the fixed quick-add bar above
+  the Android keyboard.
+- Contextual font alternates are turned off (`calt 0`) – some fonts render "4x40" as "4×40".
+- **Settings has no quick-add bar** – there is no node to add to there.

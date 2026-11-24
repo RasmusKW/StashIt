@@ -1,0 +1,53 @@
+.crumbs {
+  flex: 1;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 4px;
+}
+
+.title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.star {
+  flex: none;
+  margin-top: 4px;
+  color: var(--mat-sys-on-surface-variant);
+
+  &.on {
+    color: var(--mat-sys-tertiary);
+  }
+}
+
+.fields {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+
+  .quantity {
+    width: 112px;
+    flex: none;
+  }
+  .notes {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.count {
+  font-weight: normal;
+}
+
+.missing {
+  padding: 32px 8px;
+
+  h1 {
+    font: var(--mat-sys-headline-small);
+  }
+}

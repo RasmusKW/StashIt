@@ -8,6 +8,7 @@ import {
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
 import {
+  RouteReuseStrategy,
   provideRouter,
   withComponentInputBinding,
   withHashLocation,
@@ -16,6 +17,7 @@ import {
 import { provideServiceWorker } from '@angular/service-worker';
 import { routes } from './app.routes';
 import { initializeData } from './core/app-init';
+import { ParamAwareReuseStrategy } from './core/route-reuse';
 import { registerIcons } from './core/icons';
 
 registerLocaleData(localeDa);
@@ -30,6 +32,7 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding(),
       withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
     ),
+    { provide: RouteReuseStrategy, useClass: ParamAwareReuseStrategy },
     { provide: LOCALE_ID, useValue: 'da' },
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),

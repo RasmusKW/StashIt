@@ -1,0 +1,106 @@
+<div class="bar">
+  <div class="helpers">
+    @if (tagSuggestions().length > 0) {
+      <div class="chips" role="listbox" id="quick-add-tags" aria-label="Forslag til tags">
+        @for (suggestion of tagSuggestions(); track suggestion.tag; let i = $index) {
+          <button
+            type="button"
+            role="option"
+            class="chip"
+            [id]="'quick-add-tag-' + i"
+            [class.active]="i === activeIndex()"
+            [attr.aria-selected]="i === activeIndex()"
+            (mousedown)="keepFocus($event)"
+            (click)="insertTag(suggestion.tag)"
+          >
+            #{{ suggestion.tag }}
+          </button>
+        }
+      </div>
+    } @else if (numberSuggestion(); as suggestion) {
+      <div class="chips">
+        <button
+          type="button"
+          class="chip suggestion"
+          (mousedown)="keepFocus($event)"
+          (click)="acceptSuggestion(suggestion)"
+          [attr.aria-label]="'Opret ' + suggestion"
+        >
+          <mat-icon svgIcon="add" aria-hidden="true" />
+          {{ suggestion }}
+        </button>
+      </div>
+    } @else if (hint()) {
+      <div class="hint">{{ hint() }}</div>
+    }
+  </div>
+
+  <div class="row">
+    <textarea
+      #input
+      id="quick-add-input"
+      class="input"
+      rows="1"
+      cdkTextareaAutosize
+      cdkAutosizeMinRows="1"
+      cdkAutosizeMaxRows="6"
+      [attr.aria-label]="label()"
+      [placeholder]="placeholder()"
+      aria-describedby="quick-add-help"
+      [attr.aria-controls]="tagSuggestions().length ? 'quick-add-tags' : null"
+      [attr.aria-activedescendant]="activeIndex() >= 0 ? 'quick-add-tag-' + activeIndex() : null"
+      autocomplete="off"
+      autocapitalize="sentences"
+      enterkeyhint="send"
+      (input)="onInput()"
+      (keydown)="onKeydown($event)"
+      (beforeinput)="onBeforeInput($event)"
+      (keyup)="syncCaret()"
+      (click)="syncCaret()"
+      (focus)="focused.set(true)"
+      (blur)="focused.set(false)"
+    ></textarea>
+    <span id="quick-add-help" class="visually-hidden">
+      Enter opretter. Én ting pr. linje. Skriv #ord for tags og x2 for antal.
+    </span>
+
+    <button
+      matIconButton
+      type="button"
+      class="camera"
+      [disabled]="!cameraTarget() || photoBusy()"
+      [attr.aria-label]="cameraLabel()"
+      [matTooltip]="cameraLabel()"
+      (mousedown)="keepFocus($event)"
+      (click)="camera.click()"
+    >
+      @if (photoBusy()) {
+        <mat-progress-spinner mode="indeterminate" diameter="22" aria-label="Gemmer billede" />
+      } @else {
+        <mat-icon svgIcon="camera" />
+      }
+    </button>
+    <input
+      #camera
+      type="file"
+      accept="image/*"
+      capture="environment"
+      hidden
+      (change)="onPhoto($event)"
+    />
+
+    <button
+      matIconButton
+      type="button"
+      class="submit"
+      aria-label="Tilføj"
+      [disabled]="lineCount() === 0"
+      (mousedown)="keepFocus($event)"
+      (click)="submit()"
+    >
+      <mat-icon svgIcon="add" />
+    </button>
+  </div>
+
+  <div class="visually-hidden" aria-live="polite">{{ announcement() }}</div>
+</div>

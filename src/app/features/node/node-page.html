@@ -1,0 +1,106 @@
+<header class="app-topbar">
+  <div class="app-topbar-inner">
+    <a matIconButton [routerLink]="parentLink()" [attr.aria-label]="'Tilbage til ' + parentName()">
+      <mat-icon svgIcon="arrow-back" />
+    </a>
+    <app-breadcrumb class="crumbs" [nodeId]="id()" />
+    @if (node()) {
+      <button matIconButton [matMenuTriggerFor]="menu" aria-label="Flere handlinger">
+        <mat-icon svgIcon="more-vert" />
+      </button>
+    }
+  </div>
+</header>
+
+<mat-menu #menu="matMenu">
+  @if (children().length > 0) {
+    <button mat-menu-item (click)="selectAll()">
+      <mat-icon svgIcon="select-all" />
+      <span>Vælg indhold</span>
+    </button>
+  }
+  <button mat-menu-item (click)="deleteNode()">
+    <mat-icon svgIcon="delete" />
+    <span>Slet</span>
+  </button>
+</mat-menu>
+
+<main class="app-page">
+  @if (node(); as current) {
+    <section class="details" aria-label="Detaljer">
+      <div class="title-row">
+        <app-inline-name [name]="current.name" (renamed)="rename($event)" />
+        <button
+          matIconButton
+          class="star"
+          [class.on]="current.favorite"
+          [attr.aria-pressed]="current.favorite"
+          aria-label="Favorit"
+          (click)="toggleFavorite()"
+        >
+          <mat-icon [svgIcon]="current.favorite ? 'star' : 'star-outline'" />
+        </button>
+      </div>
+
+      <app-tag-editor [tags]="current.tags" (tagsChange)="setTags($event)" />
+
+      <div class="fields">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="quantity">
+          <mat-label>Antal</mat-label>
+          <input
+            matInput
+            type="number"
+            inputmode="numeric"
+            min="0"
+            step="1"
+            enterkeyhint="done"
+            [value]="quantity()"
+            (input)="onQuantityInput($any($event.target).value)"
+            (change)="saveQuantity()"
+            (keydown.enter)="saveQuantity()"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic" class="notes">
+          <mat-label>Noter</mat-label>
+          <textarea
+            matInput
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="12"
+            [value]="notes()"
+            (input)="onNotesInput($any($event.target).value)"
+            (blur)="saveNotes()"
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </section>
+
+    <h2 class="app-section-title">
+      Indhold
+      @if (children().length) {
+        <span class="count">({{ children().length }})</span>
+      }
+    </h2>
+    @if (children().length) {
+      <app-node-list [nodes]="children()" [label]="'Indhold i ' + current.name" />
+    } @else {
+      <p class="app-empty">
+        Her er tomt. Skriv i feltet nederst for at lægge ting i «{{ current.name }}».
+      </p>
+    }
+  } @else {
+    <div class="missing">
+      <h1>Findes ikke</h1>
+      <p class="app-empty">Det, du leder efter, er slettet eller findes ikke på denne enhed.</p>
+      <a routerLink="/">Til forsiden</a>
+    </div>
+  }
+</main>
+
+@if (node(); as current) {
+  <app-quick-add
+    [parentId]="current.id"
+    [label]="'Tilføj ting i ' + current.name"
+    [placeholder]="'Tilføj i ' + current.name + '…'"
+  />
+}

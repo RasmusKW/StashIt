@@ -60,6 +60,13 @@ body {
   font-family: $font-family;
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior-y: none;
+  // Some fonts turn "4x40" into "4×40" (contextual alternates); names must show what was typed.
+  font-feature-settings: 'calt' 0;
+}
+
+input,
+textarea {
+  font-feature-settings: 'calt' 0;
 }
 
 a {
@@ -137,4 +144,43 @@ a {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+// Sticky top bar shared by all pages.
+.app-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  background: var(--mat-sys-surface);
+  padding-top: env(safe-area-inset-top);
+
+  .app-topbar-inner {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 56px;
+    max-width: var(--app-max-width);
+    margin: 0 auto;
+    padding: 0 4px;
+    box-sizing: border-box;
+  }
+
+  .app-topbar-title {
+    flex: 1;
+    margin: 0 8px;
+    font: var(--mat-sys-title-large);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &.selecting {
+    background: var(--mat-sys-secondary-container);
+    color: var(--mat-sys-on-secondary-container);
+  }
+}
+
+// Snackbars sit above the quick-add bar.
+.app-snackbar {
+  margin-bottom: calc(var(--app-quick-add-space) + env(safe-area-inset-bottom)) !important;
 }

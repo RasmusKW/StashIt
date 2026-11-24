@@ -40,13 +40,13 @@ After every phase: `npm run lint`, `npm test`, `npm run build` → fix → `git 
 - [x] Unit tests incl. typo search and 5 000-node performance smoke test
 
 ## Phase 5 – UI shell, home, node view, quick-add
-- [ ] App shell, top bar, settings link, snackbar-based undo service
-- [ ] Home: search field, favorites, recently viewed (10), rooms, backup banner
-- [ ] Node view: breadcrumb, inline rename, star, tags chips (with autocomplete), quantity, notes
-- [ ] Children list: containers first with counts, natural sort, thumbnail/tags/quantity, virtual scroll
-- [ ] Quick-add bar: Enter creates + keeps focus, multi-line, inline syntax, `#` autocomplete,
+- [x] App shell, top bar, settings link, snackbar-based undo service
+- [x] Home: favorites, recently viewed (10), rooms, backup banner
+- [x] Node view: breadcrumb, inline rename, star, tags chips (with autocomplete), quantity, notes
+- [x] Children list: containers first with counts, natural sort, thumbnail/tags/quantity, virtual scroll
+- [x] Quick-add bar: Enter creates + keeps focus, multi-line, inline syntax, `#` autocomplete,
       next-number chip, camera button (attaches to last created node / current node)
-- [ ] "/" focuses search on desktop
+- [ ] "/" focuses search on desktop (shortcut wired; needs search field – Phase 7)
 
 ## Phase 6 – Photos
 - [ ] Compression (max 1600 px, WebP/JPEG q≈0.8) + 300 px thumbnail
