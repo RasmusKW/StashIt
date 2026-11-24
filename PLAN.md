@@ -16,12 +16,12 @@ After every phase: `npm run lint`, `npm test`, `npm run build` → fix → `git 
 - [x] Unit test setup works (`npm test`), Playwright installed and configured
 
 ## Phase 2 – Core domain logic (pure, unit tested)
-- [ ] Models: `ItemNode`, `Photo`, meta
-- [ ] Danish normalization (case, æ/ae, ø/oe, å/aa, diacritics)
-- [ ] Natural sort (Kasse 2 < Kasse 10)
-- [ ] Quick-add parser (multi-line, `#tag`, `x200`/`200x`, "4x40" stays in name, empty lines, tag-only lines)
-- [ ] Tree rules: descendants, path, `canMoveTo` (no move into self/descendants)
-- [ ] Next free number ("Kasse 1", "Kasse 2" → "Kasse 3", global)
+- [x] Models: `ItemNode`, `Photo`, meta
+- [x] Danish normalization (case, æ/ae, ø/oe, å/aa, diacritics)
+- [x] Natural sort (Kasse 2 < Kasse 10)
+- [x] Quick-add parser (multi-line, `#tag`, `x200`/`200x`, "4x40" stays in name, empty lines, tag-only lines)
+- [x] Tree rules: descendants, path, `canMoveTo` (no move into self/descendants)
+- [x] Next free number ("Kasse 1", "Kasse 2" → "Kasse 3", global)
 
 ## Phase 3 – Data layer
 - [ ] Dexie DB (`nodes`, `photos`, `meta`), `navigator.storage.persist()` on startup

@@ -29,3 +29,24 @@ Choices made where the brief left room for interpretation. Newest phases at the 
   tertiary colour; `color-scheme: light dark` makes every token follow the system theme.
 - **Service worker registers immediately** (instead of "when stable") so the first visit is
   enough to make the app work offline. All app files and icons are prefetched.
+
+## Domain logic
+
+- **Timestamps are epoch milliseconds** (`number`): compact, sortable, JSON-friendly.
+- **Danish normalization** lower-cases and spells out æ→ae, ø→oe, å→aa (also ä/ö, which are
+  the same letters in Swedish/German) and strips other diacritics. Both the index and the query
+  go through it, so "kaelder" finds "Kælder" and vice versa.
+- **Natural sort** uses `Intl.Collator('da', { numeric: true })`: "Kasse 2" before "Kasse 10",
+  and æ/ø/å after z as in the Danish alphabet.
+- **Quick-add parser**
+  - A `#tag` must contain a letter, so "Kasse #1" keeps "#1" in the name.
+  - Quantity words: `x200`, `200x`, case-insensitive, and `×`. If a line has several, the
+    last one is the quantity and earlier ones stay in the name.
+  - Lines with no name left (only tags and/or a quantity, or empty) are skipped – there is no
+    sensible name to give such a node.
+  - Leading list bullets (`- `, `* `, `• `, `[ ] `) from pasted lists are removed.
+  - Tags are lower-cased but keep æ/ø/å; tags typed in the tag editor turn spaces into `-`.
+- **Next free number** = highest existing number for that prefix + 1 (across the whole app,
+  case-insensitive and Danish-normalized). Gaps are not refilled, because a deleted "Kasse 2"
+  may still have its label on a physical box. The suggestion keeps the casing of the existing
+  nodes. Only names separated from their number by whitespace count ("Kasse 3", not "Kasse3").
