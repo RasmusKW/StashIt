@@ -24,13 +24,13 @@ After every phase: `npm run lint`, `npm test`, `npm run build` → fix → `git 
 - [x] Next free number ("Kasse 1", "Kasse 2" → "Kasse 3", global)
 
 ## Phase 3 – Data layer
-- [ ] Dexie DB (`nodes`, `photos`, `meta`), `navigator.storage.persist()` on startup
-- [ ] Signal-based `NodeStore` (in-memory index of all nodes, write-through to IndexedDB)
-- [ ] Create (single + bulk), rename, update tags/quantity/notes, favorite, lastViewedAt
-- [ ] Move (validated) with undo
-- [ ] Delete subtree + photos with undo (tombstones, purged after undo window / on startup)
-- [ ] Recently used move targets, last backup time
-- [ ] Unit tests (fake-indexeddb)
+- [x] Dexie DB (`nodes`, `photos`, `meta`), `navigator.storage.persist()` on startup
+- [x] Signal-based `NodeStore` (in-memory index of all nodes, write-through to IndexedDB)
+- [x] Create (single + bulk), rename, update tags/quantity/notes, favorite, lastViewedAt
+- [x] Move (validated) with undo
+- [x] Delete subtree + photos with undo (tombstones, purged after undo window / on startup)
+- [x] Recently used move targets, last backup time
+- [x] Unit tests (fake-indexeddb)
 
 ## Phase 4 – Search engine
 - [ ] MiniSearch index: name, tags, notes, path; fuzzy + prefix; Danish normalization

@@ -50,3 +50,23 @@ Choices made where the brief left room for interpretation. Newest phases at the 
   case-insensitive and Danish-normalized). Gaps are not refilled, because a deleted "Kasse 2"
   may still have its label on a physical box. The suggestion keeps the casing of the existing
   nodes. Only names separated from their number by whitespace count ("Kasse 3", not "Kasse3").
+
+## Data layer
+
+- **All nodes live in memory** (a `Map` plus lazily rebuilt child groups) with write-through to
+  IndexedDB. 5 000 nodes is a few hundred kB, and it makes paths, counts, sorting and search
+  instant. Writes go to IndexedDB first, then memory, so memory never claims more than is saved.
+  A `revision` signal makes every derived view reactive.
+- **Undoable delete uses tombstones**: deleted nodes get an internal `deletedAt`, vanish from the
+  UI at once and are purged (with their photos) when the undo snackbar closes. If the app is
+  closed inside the undo window, the purge happens on the next start. This keeps photos safe for
+  undo without copying blobs into memory.
+- **Photo index without blobs**: on start only the `[nodeId+createdAt]` index keys are read, so
+  the app never loads image data until a thumbnail is actually shown.
+- **Deleting a single photo** (in the viewer) copies its bytes into memory for the undo window,
+  then deletes it; undo writes it back in its original position.
+- **Orphan safety net**: a node whose parent is missing (should never happen) is moved to the
+  top level on start instead of becoming invisible.
+- **Moving a node to where it already is** is a no-op; nested selections only move/delete the
+  topmost selected node (its descendants follow automatically).
+- `navigator.storage.persist()` is requested on every start (no-op once granted).

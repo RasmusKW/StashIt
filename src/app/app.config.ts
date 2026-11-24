@@ -15,6 +15,7 @@ import {
 } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
 import { routes } from './app.routes';
+import { initializeData } from './core/app-init';
 import { registerIcons } from './core/icons';
 
 registerLocaleData(localeDa);
@@ -36,5 +37,6 @@ export const appConfig: ApplicationConfig = {
       registrationStrategy: 'registerImmediately',
     }),
     provideAppInitializer(() => registerIcons()),
+    provideAppInitializer(initializeData),
   ],
 };
