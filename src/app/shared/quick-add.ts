@@ -1,7 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ElementRef,
+  afterNextRender,
   computed,
   inject,
   input,
@@ -59,6 +61,25 @@ export class QuickAdd {
 
   private allowLineBreak = false;
   private queue: Promise<unknown> = Promise.resolve();
+
+  constructor() {
+    // Publish the bar's real height so page content and snackbars always clear it, also when
+    // suggestion chips or several lines make it taller.
+    const host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+    const destroyRef = inject(DestroyRef);
+    const root = document.documentElement;
+    afterNextRender(() => {
+      if (typeof ResizeObserver === 'undefined') return;
+      const observer = new ResizeObserver(() => {
+        root.style.setProperty('--app-quick-add-space', `${Math.ceil(host.offsetHeight) + 16}px`);
+      });
+      observer.observe(host);
+      destroyRef.onDestroy(() => {
+        observer.disconnect();
+        root.style.removeProperty('--app-quick-add-space');
+      });
+    });
+  }
 
   protected readonly lineCount = computed(() => parseQuickAdd(this.text()).length);
 

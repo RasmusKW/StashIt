@@ -178,3 +178,16 @@ Choices made where the brief left room for interpretation. Newest phases at the 
   `navigator.storage.persisted()`, with a button to ask again if it was not granted.
 - Large backups are built in memory; with thousands of photos this needs a few hundred MB of RAM
   (see README "Known limitations").
+
+## E2E tests
+
+- Run on two Playwright projects: **mobile** (Pixel 7 emulation, long press as a real touch via
+  CDP) and **desktop** (Chrome, long press with the mouse). Both against the production build
+  in a sub folder, with the real service worker.
+- **Every E2E test fails on any console error or uncaught exception** (auto fixture).
+- The offline test waits until the service worker controls the page *and* the app's files are
+  in the Cache Storage, then turns the network off, reloads, opens a fresh tab, adds items,
+  searches and opens settings – all offline.
+- The quick-add bar measures its own height (ResizeObserver) and publishes it as
+  `--app-quick-add-space`, so the end of every list and the snackbars always clear it, even
+  when suggestion chips or several lines make it taller.

@@ -7,6 +7,9 @@ const MOVE_TOLERANCE_PX = 10;
  * Emits `appLongPress` after holding a pointer down for 500 ms without moving, and on the
  * context menu event (right-click, Shift+F10, Android long-press). The click that follows a
  * long press is swallowed so it does not also activate the element.
+ *
+ * Moving more than 10 px cancels. `pointerleave` deliberately does not: browsers also fire it
+ * when the layout shifts under a resting pointer, which would randomly cancel a long press.
  */
 @Directive({
   selector: '[appLongPress]',
@@ -15,7 +18,6 @@ const MOVE_TOLERANCE_PX = 10;
     '(pointermove)': 'onMove($event)',
     '(pointerup)': 'cancel()',
     '(pointercancel)': 'cancel()',
-    '(pointerleave)': 'cancel()',
     '(contextmenu)': 'onContextMenu($event)',
     '(click)': 'onClick($event)',
     '[style.-webkit-touch-callout]': '"none"',

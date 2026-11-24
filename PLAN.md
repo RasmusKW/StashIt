@@ -74,9 +74,9 @@ After every phase: `npm run lint`, `npm test`, `npm run build` → fix → `git 
 - [x] Unit test: backup round trip (export → restore → identical data and photos)
 
 ## Phase 10 – E2E (Playwright)
-- [ ] Create room → multi-line add → typo search with correct path → move → delete + undo
+- [x] Create room → multi-line add → typo search with correct path → move → delete + undo
       → favorite on home → offline reload works (`context.setOffline(true)`)
-- [ ] No console errors during E2E
+- [x] No console errors during E2E
 
 ## Phase 11 – Polish & docs
 - [ ] Accessibility pass (labels, focus order, contrast), desktop layout
