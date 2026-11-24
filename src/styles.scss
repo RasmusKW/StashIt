@@ -61,13 +61,14 @@ body {
   font-family: $font-family;
   -webkit-tap-highlight-color: transparent;
   overscroll-behavior-y: none;
-  // Some fonts turn "4x40" into "4×40" (contextual alternates); names must show what was typed.
-  font-feature-settings: 'calt' 0;
 }
 
-input,
-textarea {
-  font-feature-settings: 'calt' 0;
+// Some fonts (e.g. Inter) turn "4x40" into "4×40" via contextual alternates; names must show
+// exactly what was typed. `!important` because every `font:` shorthand would reset it.
+*,
+*::before,
+*::after {
+  font-feature-settings: 'calt' 0 !important;
 }
 
 a {

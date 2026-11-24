@@ -1,4 +1,5 @@
 import { Injectable, inject, signal } from '@angular/core';
+import { CrossTabSync } from './cross-tab-sync';
 import { MetaStore } from './meta-store';
 import { NodeStore } from './node-store';
 import { PhotoStore } from './photo-store';
@@ -17,6 +18,7 @@ export function initializeData(): Promise<void> {
   const meta = inject(MetaStore);
   const storage = inject(StorageService);
   const status = inject(AppStatus);
+  const sync = inject(CrossTabSync);
 
   // Fire and forget: the browser may show a prompt or decide silently.
   void storage.requestPersistence();
@@ -25,6 +27,10 @@ export function initializeData(): Promise<void> {
     try {
       await Promise.all([photos.init(), meta.init()]);
       await nodes.init();
+      listenToOtherTabs(sync, async () => {
+        await Promise.all([photos.init(), meta.init()]);
+        await nodes.init({ repair: false });
+      });
     } catch (error) {
       console.error('Kunne ikke åbne databasen', error);
       status.initError.set(
@@ -32,4 +38,16 @@ export function initializeData(): Promise<void> {
       );
     }
   })();
+}
+
+/** Reloads (debounced) when another tab of the app changed the data. */
+function listenToOtherTabs(sync: CrossTabSync, reload: () => Promise<void>): void {
+  let timer: ReturnType<typeof setTimeout> | null = null;
+  sync.listen(() => {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => {
+      timer = null;
+      reload().catch((error: unknown) => console.error('Kunne ikke genindlæse data', error));
+    }, 150);
+  });
 }

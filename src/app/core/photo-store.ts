@@ -1,4 +1,5 @@
 import { Injectable, inject, signal } from '@angular/core';
+import { CrossTabSync } from './cross-tab-sync';
 import { APP_DB } from './db';
 import { CompressedPhoto, compressImage } from './image-compress';
 import { Photo, newId } from './models';
@@ -10,6 +11,7 @@ import { Photo, newId } from './models';
 @Injectable({ providedIn: 'root' })
 export class PhotoStore {
   private readonly db = inject(APP_DB);
+  private readonly sync = inject(CrossTabSync);
 
   /** nodeId → photo ids, oldest first. */
   private readonly byNode = new Map<string, string[]>();
@@ -32,7 +34,7 @@ export class PhotoStore {
       const [nodeId, createdAt] = key as unknown as [string, number];
       this.indexAdd(nodeId, ids[i] as string, createdAt);
     });
-    this.bump();
+    this.bump(false);
   }
 
   /** Photo ids of a node, oldest first (reactive). */
@@ -156,7 +158,9 @@ export class PhotoStore {
     else this.byNode.delete(nodeId);
   }
 
-  private bump(): void {
+  /** `local` = a change made in this tab, which other tabs should hear about. */
+  private bump(local = true): void {
     this._revision.update((v) => v + 1);
+    if (local) this.sync.notify();
   }
 }

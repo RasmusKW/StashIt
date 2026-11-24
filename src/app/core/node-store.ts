@@ -1,4 +1,5 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
+import { CrossTabSync } from './cross-tab-sync';
 import { APP_DB } from './db';
 import { ItemNode, NewNode, NodePatch, newId } from './models';
 import { buildNumberIndex } from './numbering';
@@ -39,6 +40,7 @@ const RECENT_LIMIT = 10;
 export class NodeStore {
   private readonly db = inject(APP_DB);
   private readonly photos = inject(PhotoStore);
+  private readonly sync = inject(CrossTabSync);
 
   private readonly byId = new Map<string, ItemNode>();
   /** parentId → children (unsorted); rebuilt lazily after changes. */
@@ -96,11 +98,16 @@ export class NodeStore {
     return buildNumberIndex([...this.byId.values()].map((node) => node.name));
   });
 
-  /** Loads everything from IndexedDB and finishes deletes interrupted by closing the app. */
-  async init(): Promise<void> {
+  /**
+   * Loads everything from IndexedDB. On app start (`repair`) it also finishes deletes that were
+   * interrupted by closing the app and repairs orphans. Reloads triggered by another tab skip
+   * that: the other tab may still be inside its undo window.
+   */
+  async init(options: { repair?: boolean } = {}): Promise<void> {
+    const repair = options.repair ?? true;
     const all = await this.db.nodes.toArray();
     const tombstoned = all.filter((node) => node.deletedAt !== undefined).map((node) => node.id);
-    if (tombstoned.length) await this.purge(tombstoned);
+    if (repair && tombstoned.length) await this.purge(tombstoned);
 
     this.byId.clear();
     for (const node of all) if (node.deletedAt === undefined) this.byId.set(node.id, node);
@@ -109,7 +116,7 @@ export class NodeStore {
     const orphans = [...this.byId.values()].filter(
       (node) => node.parentId !== null && !this.byId.has(node.parentId),
     );
-    if (orphans.length) {
+    if (repair && orphans.length) {
       const fixed = orphans.map((node) => ({ ...node, parentId: null }));
       await this.db.nodes.bulkPut(fixed);
       for (const node of fixed) this.byId.set(node.id, node);
@@ -338,6 +345,7 @@ export class NodeStore {
   async reload(): Promise<void> {
     await this.photos.init();
     await this.init();
+    this.sync.notify();
   }
 
   // ---------------------------------------------------------------- internals
@@ -371,6 +379,7 @@ export class NodeStore {
         ? { kind: 'upsert', ids: collectSubtree((id) => this.groupMap().get(id) ?? [], change.ids) }
         : change;
     for (const listener of this.listeners) listener(final);
+    if (change.kind !== 'reset') this.sync.notify();
     this.bump();
   }
 

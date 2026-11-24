@@ -1,4 +1,5 @@
 import { Injectable, inject, signal } from '@angular/core';
+import { CrossTabSync } from './cross-tab-sync';
 import { APP_DB } from './db';
 
 const LAST_BACKUP = 'lastBackupAt';
@@ -12,6 +13,7 @@ export const BACKUP_REMINDER_DAYS = 30;
 @Injectable({ providedIn: 'root' })
 export class MetaStore {
   private readonly db = inject(APP_DB);
+  private readonly sync = inject(CrossTabSync);
 
   private readonly _lastBackupAt = signal<number | null>(null);
   private readonly _recentTargets = signal<readonly string[]>([]);
@@ -37,6 +39,7 @@ export class MetaStore {
   async setLastBackupAt(time: number): Promise<void> {
     await this.db.meta.put({ key: LAST_BACKUP, value: time });
     this._lastBackupAt.set(time);
+    this.sync.notify();
   }
 
   async addRecentTarget(nodeId: string): Promise<void> {

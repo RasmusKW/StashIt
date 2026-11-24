@@ -79,7 +79,12 @@ After every phase: `npm run lint`, `npm test`, `npm run build` → fix → `git 
 - [x] No console errors during E2E
 
 ## Phase 11 – Polish & docs
-- [ ] Accessibility pass (labels, focus order, contrast), desktop layout
-- [ ] README.md (run, test, build, static HTTPS hosting, Android install, base-href)
-- [ ] DECISIONS.md complete
-- [ ] Final: lint, unit, E2E, build all green; push + PR
+- [x] Accessibility pass (labels, focus order, contrast) – axe-core scan in E2E (light + dark), 0 violations
+- [x] Desktop layout check (centered column, `/` shortcut, mouse long-press/right-click)
+- [x] Cross-tab sync (BroadcastChannel) so two open tabs never overwrite each other
+- [x] PWA installability verified via Chrome DevTools Protocol in E2E
+- [x] Search latency with 5 000 nodes verified in E2E (~0.2 s incl. debounce)
+- [x] Dependency audit: 0 vulnerabilities
+- [x] README.md (run, test, build, static HTTPS hosting, Android install, base-href)
+- [x] DECISIONS.md complete
+- [x] Final: lint, unit, E2E, build all green; push + PR

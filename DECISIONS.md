@@ -191,3 +191,22 @@ Choices made where the brief left room for interpretation. Newest phases at the 
 - The quick-add bar measures its own height (ResizeObserver) and publishes it as
   `--app-quick-add-space`, so the end of every list and the snackbars always clear it, even
   when suggestion chips or several lines make it taller.
+
+## Polish & robustness
+
+- **Cross-tab sync**: every local write posts a message on a `BroadcastChannel`; other open tabs
+  (e.g. the installed app and a browser tab) reload their in-memory data 150 ms later. Without
+  this, a stale tab could overwrite newer data. Reloads triggered this way never purge
+  tombstones – the other tab may still be inside its undo window.
+- **Accessibility**: rows are links, icon buttons have Danish `aria-label`s, the breadcrumb is a
+  `nav` with `aria-current`, the quick-add field describes its syntax via `aria-describedby`,
+  tag suggestions are a `listbox` wired with `aria-activedescendant`, status messages use
+  `aria-live`, and multi-select can be started from the keyboard (context-menu key or
+  "Vælg indhold" in the menu). An axe-core scan (WCAG 2.1 AA, incl. contrast) runs in E2E on
+  every main screen in both light and dark mode and reports zero violations.
+- **Installability is verified by Chrome itself** in E2E (`Page.getInstallabilityErrors` must be
+  empty).
+- **Performance** is verified in E2E with 5 000 seeded nodes: a typo search shows results in
+  ~0.2 s including the 100 ms debounce and the one-time index build.
+- `typescript-eslint` was bumped from the schematic's pinned 8.72.2 to 8.74.0 to clear a
+  moderate advisory in a dev-only dependency (`npm audit` reports 0 vulnerabilities).
