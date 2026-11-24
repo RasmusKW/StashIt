@@ -1,16 +1,24 @@
-<header class="app-topbar">
-  <div class="app-topbar-inner">
-    <a matIconButton [routerLink]="parentLink()" [attr.aria-label]="'Tilbage til ' + parentName()">
-      <mat-icon svgIcon="arrow-back" />
-    </a>
-    <app-breadcrumb class="crumbs" [nodeId]="id()" />
-    @if (node()) {
-      <button matIconButton [matMenuTriggerFor]="menu" aria-label="Flere handlinger">
-        <mat-icon svgIcon="more-vert" />
-      </button>
-    }
-  </div>
-</header>
+@if (selection.active()) {
+  <app-selection-bar [allIds]="visibleIds()" />
+} @else {
+  <header class="app-topbar">
+    <div class="app-topbar-inner">
+      <a
+        matIconButton
+        [routerLink]="parentLink()"
+        [attr.aria-label]="'Tilbage til ' + parentName()"
+      >
+        <mat-icon svgIcon="arrow-back" />
+      </a>
+      <app-breadcrumb class="crumbs" [nodeId]="id()" />
+      @if (node()) {
+        <button matIconButton [matMenuTriggerFor]="menu" aria-label="Flere handlinger">
+          <mat-icon svgIcon="more-vert" />
+        </button>
+      }
+    </div>
+  </header>
+}
 
 <mat-menu #menu="matMenu">
   @if (children().length > 0) {
@@ -19,6 +27,10 @@
       <span>Vælg indhold</span>
     </button>
   }
+  <button mat-menu-item (click)="moveNode()">
+    <mat-icon svgIcon="move" />
+    <span>Flyt…</span>
+  </button>
   <button mat-menu-item (click)="photoStrip()?.pick()">
     <mat-icon svgIcon="add-photo" />
     <span>Tilføj billede</span>

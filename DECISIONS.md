@@ -136,3 +136,20 @@ Choices made where the brief left room for interpretation. Newest phases at the 
   "Søg overalt" (only inside a node), "Favoritter", "Har billede", then the tags used in the
   current scope, most used first, selected ones first. One horizontally scrolling row.
 - Search results support multi-select too (long press), handy for "move everything tagged X".
+
+## Multi-select & moving
+
+- **Long press = 500 ms without moving more than 10 px**; right-click / the context-menu key
+  (and Android's native long-press `contextmenu`) also start selection, so it works with mouse
+  and keyboard too. A short vibration confirms the long press where supported.
+- While selecting, the top bar turns into a selection bar: close, "N valgt", select all,
+  Move, Favorite, Add tag, Delete. Escape (desktop) or navigating away ends selection.
+- **Favorite on a selection** marks all as favorites, or removes the mark if all already are.
+- **The node menu ("⋮") has "Vælg indhold"**, which selects all contents – a keyboard-friendly
+  way into multi-select, plus "Flyt…", "Tilføj billede" and "Slet" for the node itself.
+- **"Flyt til…" bottom sheet**: search (fuzzy, same engine), "Øverste niveau", favorites,
+  recently used targets (last 6), then the expandable tree. One virtual-scrolled list of
+  52 px rows so even 5 000 nodes stay smooth. Disabled targets explain why ("kan ikke flyttes
+  ind i sig selv" / "nuværende placering"). The search field is auto-focused only on devices
+  with a fine pointer, so phones don't pop up the keyboard over the tree.
+- **Undo for bulk favorite/tag too** – cheap to offer, and consistent with delete/move.

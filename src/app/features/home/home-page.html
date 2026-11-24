@@ -1,12 +1,16 @@
-<header class="app-topbar">
-  <div class="app-topbar-inner">
-    <img class="logo" src="icon.svg" alt="" width="32" height="32" />
-    <h1 class="app-topbar-title">Hvor er den?</h1>
-    <a matIconButton routerLink="/indstillinger" aria-label="Indstillinger og backup">
-      <mat-icon svgIcon="settings" />
-    </a>
-  </div>
-</header>
+@if (selection.active()) {
+  <app-selection-bar [allIds]="visibleIds()" />
+} @else {
+  <header class="app-topbar">
+    <div class="app-topbar-inner">
+      <img class="logo" src="icon.svg" alt="" width="32" height="32" />
+      <h1 class="app-topbar-title">Hvor er den?</h1>
+      <a matIconButton routerLink="/indstillinger" aria-label="Indstillinger og backup">
+        <mat-icon svgIcon="settings" />
+      </a>
+    </div>
+  </header>
+}
 
 <main class="app-page">
   <app-search-field placeholder="Søg efter ting…" label="Søg i alle ting" />

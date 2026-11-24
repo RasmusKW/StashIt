@@ -60,11 +60,11 @@ After every phase: `npm run lint`, `npm test`, `npm run build` → fix → `git 
 - [x] Search state in URL query params (back button returns to results)
 
 ## Phase 8 – Multi-select & moving
-- [ ] Long press (and right-click) starts multi-select; tap toggles afterwards
-- [ ] Actions: Move, Delete, Favorite, Add tag
-- [ ] "Flyt til…" bottom sheet: search, favorites, recently used, tree (virtual scroll),
+- [x] Long press (and right-click) starts multi-select; tap toggles afterwards
+- [x] Actions: Move, Delete, Favorite, Add tag
+- [x] "Flyt til…" bottom sheet: search, favorites, recently used, tree (virtual scroll),
       invalid targets disabled, top level option
-- [ ] Undo snackbars ("Fortryd", ~8 s) for delete and move, no confirmation dialogs
+- [x] Undo snackbars ("Fortryd", ~8 s) for delete and move, no confirmation dialogs
 
 ## Phase 9 – Backup & settings
 - [ ] Export zip (data.json with schemaVersion + photos/) via Web Share API (canShare) or download

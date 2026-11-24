@@ -53,10 +53,12 @@ export class LongPressDirective implements OnDestroy {
   }
 
   onClick(event: MouseEvent): void {
+    // Angular chains this host listener and the element's own (click) handler into one native
+    // listener, so stopping propagation does not stop that handler. The flag is therefore kept
+    // until the handler calls consumeClick() (or the next pointerdown resets it).
     if (this.suppressClick) {
-      this.suppressClick = false;
       event.preventDefault();
-      event.stopImmediatePropagation();
+      event.stopPropagation();
     }
   }
 

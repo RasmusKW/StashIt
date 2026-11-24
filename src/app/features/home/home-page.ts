@@ -8,6 +8,7 @@ import { containersFirst } from '../../core/ordering';
 import { SelectionService } from '../../core/selection.service';
 import { NodeList } from '../../shared/node-list';
 import { QuickAdd } from '../../shared/quick-add';
+import { SelectionBar } from '../../shared/selection-bar';
 import { SearchController } from '../search/search-controller';
 import { SearchField } from '../search/search-field';
 import { SearchResults } from '../search/search-results';
@@ -22,6 +23,7 @@ import { SearchResults } from '../search/search-results';
     MatIcon,
     NodeList,
     QuickAdd,
+    SelectionBar,
     SearchField,
     SearchResults,
   ],
@@ -40,6 +42,10 @@ export class HomePage {
     containersFirst(this.store.children(null), (id) => this.store.childCount(id)),
   );
   protected readonly favorites = this.store.favorites;
+  /** What "Vælg alle" selects: the search results or the rooms. */
+  protected readonly visibleIds = computed(() =>
+    (this.search.active() ? this.search.results() : this.rooms()).map((node) => node.id),
+  );
   protected readonly recent = this.store.recentlyViewed;
 
   private readonly bannerHidden = signal(false);

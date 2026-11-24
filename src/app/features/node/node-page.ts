@@ -25,6 +25,7 @@ import { NodeActions } from '../../shared/node-actions';
 import { Breadcrumb } from '../../shared/breadcrumb';
 import { NodeList } from '../../shared/node-list';
 import { QuickAdd } from '../../shared/quick-add';
+import { SelectionBar } from '../../shared/selection-bar';
 import { PhotoStrip } from '../photos/photo-strip';
 import { SearchController } from '../search/search-controller';
 import { SearchField } from '../search/search-field';
@@ -49,6 +50,7 @@ import { TagEditor } from './tag-editor';
     Breadcrumb,
     NodeList,
     QuickAdd,
+    SelectionBar,
     InlineName,
     TagEditor,
     PhotoStrip,
@@ -75,6 +77,10 @@ export class NodePage implements OnInit {
   protected readonly node = computed(() => this.store.get(this.id()));
   protected readonly children = computed(() =>
     containersFirst(this.store.children(this.id()), (id) => this.store.childCount(id)),
+  );
+  /** What "Vælg alle" selects: the search results or the contents. */
+  protected readonly visibleIds = computed(() =>
+    (this.search.active() ? this.search.results() : this.children()).map((node) => node.id),
   );
   protected readonly parentLink = computed(() => {
     const parentId = this.node()?.parentId;
@@ -151,6 +157,10 @@ export class NodePage implements OnInit {
 
   protected selectAll(): void {
     this.selection.setAll(this.children().map((child) => child.id));
+  }
+
+  protected moveNode(): void {
+    void this.actions.move([this.id()]);
   }
 
   protected async deleteNode(): Promise<void> {

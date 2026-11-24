@@ -1,0 +1,85 @@
+<div class="head">
+  <h2 class="title">{{ title() }}</h2>
+  <button matIconButton type="button" aria-label="Luk" (click)="close()">
+    <mat-icon svgIcon="close" />
+  </button>
+</div>
+<div class="search">
+  <mat-icon svgIcon="search" aria-hidden="true" />
+  <input
+    id="move-search"
+    type="search"
+    placeholder="Søg efter sted…"
+    aria-label="Søg efter sted"
+    autocomplete="off"
+    enterkeyhint="search"
+    [value]="query()"
+    (input)="query.set($any($event.target).value)"
+  />
+</div>
+
+<cdk-virtual-scroll-viewport
+  class="list"
+  [itemSize]="rowHeight"
+  [style.height.px]="viewportHeight()"
+  [minBufferPx]="rowHeight * 8"
+  [maxBufferPx]="rowHeight * 16"
+>
+  <div *cdkVirtualFor="let row of rows(); trackBy: trackRow" class="row-wrap">
+    @switch (row.kind) {
+      @case ('header') {
+        <h3 class="section">{{ row.label }}</h3>
+      }
+      @case ('top') {
+        <button type="button" class="target" [disabled]="isDisabled(null)" (click)="choose(null)">
+          <mat-icon svgIcon="top-level" aria-hidden="true" />
+          <span class="text">
+            <span class="name">Øverste niveau</span>
+            <span class="sub">
+              {{ isDisabled(null) ? 'nuværende placering' : 'Som et rum for sig selv' }}
+            </span>
+          </span>
+        </button>
+      }
+      @case ('node') {
+        <div class="tree-row" [style.padding-left.px]="row.depth * 20">
+          @if (row.path === '') {
+            @if (row.expandable) {
+              <button
+                matIconButton
+                type="button"
+                class="expander"
+                [attr.aria-expanded]="row.expanded"
+                [attr.aria-label]="(row.expanded ? 'Fold sammen: ' : 'Fold ud: ') + row.node.name"
+                (click)="toggle(row.node.id)"
+              >
+                <mat-icon [svgIcon]="row.expanded ? 'expand-more' : 'expand-right'" />
+              </button>
+            } @else {
+              <span class="expander-space"></span>
+            }
+          }
+          <button
+            type="button"
+            class="target"
+            [disabled]="isDisabled(row.node.id)"
+            (click)="choose(row.node.id)"
+          >
+            <mat-icon [svgIcon]="row.expandable ? 'box' : 'folder'" aria-hidden="true" />
+            <span class="text">
+              <span class="name">{{ row.node.name }}</span>
+              @if (isDisabled(row.node.id)) {
+                <span class="sub">{{ disabledReason(row.node.id) }}</span>
+              } @else if (row.path) {
+                <span class="sub">{{ row.path }}</span>
+              }
+            </span>
+          </button>
+        </div>
+      }
+    }
+  </div>
+</cdk-virtual-scroll-viewport>
+@if (rows().length === 0) {
+  <p class="empty">Intet sted matcher «{{ query() }}».</p>
+}
