@@ -210,3 +210,11 @@ Choices made where the brief left room for interpretation. Newest phases at the 
   ~0.2 s including the 100 ms debounce and the one-time index build.
 - `typescript-eslint` was bumped from the schematic's pinned 8.72.2 to 8.74.0 to clear a
   moderate advisory in a dev-only dependency (`npm audit` reports 0 vulnerabilities).
+
+## Deployment
+
+- **GitHub Pages via GitHub Actions** (`.github/workflows/deploy-pages.yml`): lint + unit tests,
+  then build with `--base-href` taken from `actions/configure-pages` (`/<repo>/`, or `/` with a
+  custom domain), then `actions/deploy-pages`. Only the default branch deploys (whatever it is
+  named), so feature branches never overwrite the live app. E2E tests are not run in the deploy
+  workflow – they need a browser download and take a minute; run `npm run e2e` locally.

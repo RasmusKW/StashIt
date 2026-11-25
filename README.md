@@ -100,10 +100,15 @@ this: `npm run build:e2e`.)
 Service workers require HTTPS (except on `localhost`). Any static host works – no server-side
 code and no rewrite rules are needed thanks to hash routing:
 
-- **GitHub Pages**: build with `--base-href /<repository-name>/` and publish
-  `dist/hvor-er-den/browser/` (e.g. with the `actions/deploy-pages` action). HTTPS is automatic.
-- **Netlify / Cloudflare Pages / Vercel**: publish directory `dist/hvor-er-den/browser`,
-  build command `npm run build`.
+- **GitHub Pages** (set up in this repo): the workflow
+  [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) runs lint and unit
+  tests, builds with the right base href and deploys on every push to the default branch.
+  One-time setup: **Settings → Pages → Build and deployment → Source: "GitHub Actions"**, then
+  re-run the workflow (Actions → "Deploy to GitHub Pages" → Run workflow). The app is then at
+  `https://<user>.github.io/<repository>/`. Note: on a free GitHub account Pages requires a
+  **public** repository; private repositories need GitHub Pro/Team.
+- **Netlify / Cloudflare Pages / Vercel** (free, also for private repositories): connect the
+  repository, build command `npm run build`, publish directory `dist/hvor-er-den/browser`.
 - **Your own server** (nginx, Caddy, a NAS…): copy the files and serve them over HTTPS.
 
 Recommended cache headers so updates are picked up quickly:
